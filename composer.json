@@ -1,0 +1,7 @@
+{
+  "name": "madwort/link-scraper",
+  "version": "0.0.0",
+  "require": {
+    "paquettg/php-html-parser": "1.6.4"
+  }
+}
