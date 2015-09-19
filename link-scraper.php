@@ -3,7 +3,7 @@
 Name: rconstanzo's Thesis Link Scraper
 URI: http://www.rodrigoconstanzo.com/thesis/
 Description: Extract all <a> links from a bunch of WP posts
-Version: 0.2
+Version: 0.3
 Author: MADWORT
 Author URI: http://www.madwort.co.uk
 */
@@ -34,34 +34,33 @@ $urls = [
 <h1>Rod's Thesis link scraper</h1>
 <?php
 
+$my_links = "\n";
+$my_video_links = "\n";
+
 foreach ($urls as $url_key => $url) {
   // $html = file_get_contents($url);
   $dom = new Dom;
   $dom->loadFromUrl($url);
-  ?><h2><?php echo $url; ?> - <?php echo $dom->find('title')->text; ?></h2>
-<?php
-    // echo $dom->innerHtml;
-    // $html = $dom->find('#colLeft')[0];
-    $a = $dom->find('#colLeft a');
-    $my_links = "\n";
-    $my_video_links = "\n";
-    foreach ($a as $key => $my_a) { 
-      if ($my_a->href == "") { continue; }
-      $this_link = 
-        "    <li><a href=\"".$my_a->href."\">". 
-        $my_a->text." - ".$my_a->href."</a></li>\n"; 
-      if (strstr($my_a->href,'youtube') || 
-          strstr($my_a->href,'vimeo')) 
-      {
-        $my_video_links .= $this_link;
-      } else {
-        $my_links .= $this_link;
-      }
+  // echo $dom->innerHtml;
+  // $html = $dom->find('#colLeft')[0];
+  $a = $dom->find('#colLeft a');
+  foreach ($a as $key => $my_a) { 
+    if ($my_a->href == "") { continue; }
+    $this_link = 
+      "    <li><b>".$my_a->text."</b><a href=\"".$my_a->href.
+      "\" target=\"_blank\">".$my_a->href."</a></li>\n"; 
+    if (strstr($my_a->href,'youtube') || 
+        strstr($my_a->href,'vimeo')) 
+    {
+      $my_video_links .= $this_link;
+    } else {
+      $my_links .= $this_link;
     }
-    ?><h3>Links</h3>
-<ul><?php echo $my_links; ?></ul>
+  }
+}   ?>
+<h3>Links</h3>
+<ul style="list-style-type: none;"><?php echo $my_links; ?></ul>
 <h3>Videos</h3>
-<ul><?php echo $my_video_links; ?></ul>
-<?php } ?>
+<ul style="list-style-type: none;"><?php echo $my_video_links; ?></ul>
 </body>
 </html>
