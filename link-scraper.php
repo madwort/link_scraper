@@ -3,7 +3,7 @@
 Name: rconstanzo's Thesis Link Scraper
 URI: http://www.rodrigoconstanzo.com/thesis/
 Description: Extract all <a> links from a bunch of WP posts
-Version: 0.1
+Version: 0.2
 Author: MADWORT
 Author URI: http://www.madwort.co.uk
 */
@@ -39,19 +39,29 @@ foreach ($urls as $url_key => $url) {
   $dom = new Dom;
   $dom->loadFromUrl($url);
   ?><h2><?php echo $url; ?> - <?php echo $dom->find('title')->text; ?></h2>
-    <ul>
 <?php
     // echo $dom->innerHtml;
     // $html = $dom->find('#colLeft')[0];
     $a = $dom->find('#colLeft a');
-    foreach ($a as $key => $my_a) { ?>
-      <li><a href="<?php echo $my_a->href; ?>"><?php 
-              echo $my_a->text; // "click here" ?> - <?php 
-              echo $my_a->href; ?></a></li>
+    $my_links = "\n";
+    $my_video_links = "\n";
+    foreach ($a as $key => $my_a) { 
+      if ($my_a->href == "") { continue; }
+      $this_link = 
+        "    <li><a href=\"".$my_a->href."\">". 
+        $my_a->text." - ".$my_a->href."</a></li>\n"; 
+      if (strstr($my_a->href,'youtube') || 
+          strstr($my_a->href,'vimeo')) 
+      {
+        $my_video_links .= $this_link;
+      } else {
+        $my_links .= $this_link;
+      }
+    }
+    ?><h3>Links</h3>
+<ul><?php echo $my_links; ?></ul>
+<h3>Videos</h3>
+<ul><?php echo $my_video_links; ?></ul>
 <?php } ?>
-    </ul>
-    <?php } ?>
-<div>Written by <a href="http://madwort.co.uk">MADWORT</a></div>
-
 </body>
 </html>
