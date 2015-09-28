@@ -47,8 +47,8 @@ foreach ($urls as $url_key => $url) {
   foreach ($a as $key => $my_a) { 
     if ($my_a->href == "") { continue; }
     $this_link = 
-      "    <li><b>".$my_a->text."</b><a href=\"".$my_a->href.
-      "\" target=\"_blank\">".$my_a->href."</a></li>\n"; 
+      "    <dt><b>".$my_a->text."</b></dt><dd style="padding-left: 10px;"><a href=\"".$my_a->href.
+      "\" target=\"_blank\">-".$my_a->href."</a></dd>\n"; 
     if (strstr($my_a->href,'youtube') || 
         strstr($my_a->href,'vimeo')) 
     {
@@ -59,8 +59,8 @@ foreach ($urls as $url_key => $url) {
   }
 }   ?>
 <h3>Links</h3>
-<ul style="list-style-type: none;"><?php echo $my_links; ?></ul>
+<dl style="padding-left: 30px;"><?php echo $my_links; ?></dl>
 <h3>Videos</h3>
-<ul style="list-style-type: none;"><?php echo $my_video_links; ?></ul>
+<dl style="padding-left: 30px;"><?php echo $my_video_links; ?></dl>
 </body>
 </html>
