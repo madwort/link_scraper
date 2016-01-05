@@ -56,6 +56,7 @@ foreach ($urls as $url_key => $url) {
   $html_dom = $dom->find('#colLeft');
   $html = (string)$html_dom;
   if(mb_detect_encoding($html, 'UTF-8, ISO-8859-1') != 'UTF-8') {
+    $html = str_replace(chr(0xC2),'',$html);
     $html = iconv('ISO-8859-1', 'UTF-8', $html);
   }
   // var_dump((string)$html);
